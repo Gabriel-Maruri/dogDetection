@@ -1,26 +1,18 @@
-from flask import Flask, request, jsonify
-from ultralytics import YOLO
-import os
+from flask import Flask, request
 
-app= Flask(__name__)
-model= YOLO("runs/detect/train/weights/best.pt")
+app = Flask(__name__)
 
-@app.route('/detect',methods=['image'])
-def detectionDogs():
-    if 'image' not in request.files:
-        return jsonify({"Error"}), 400
-    image= request.files['image']
-    image_path= "temp.jpg"
-    image.save(image_path)
+@app.route('/', methods=['GET'])
+def status():
+    return 'API online', 200
 
-    results= model(image_path)
-    names= results[0].names
-    classDetect= [names[int(c)] for c in results[0].boxes.cls]
+@app.route('/perro', methods=['POST'])
+def perro_detectado():
+    print("PERRO DETECTADO")
+    return '', 204
 
-    os.remove(image_path)
-
-    containDog= "dog" in classDetect
-    return jsonify({containDog})
-if __name__=='__main__':
-    app.run(host='0.0.0.0', port= 5000)
+if __name__ == '__main__':
+    import os
+    PORT = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=PORT)
     
