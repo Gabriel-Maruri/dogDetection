@@ -2,10 +2,6 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route('/')
-def status():
-    return 'API online', 200
-
 @app.route('/perro', methods=['POST'])
 def perro_detectado():
     print("PERRO DETECTADO")
