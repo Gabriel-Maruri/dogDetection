@@ -1,0 +1,6 @@
+services:
+    type: web
+    name: dog-detection-api
+    env: python
+    buildCommand: pip install -r server/requirements.txt
+    startCommand: python server/app.py
